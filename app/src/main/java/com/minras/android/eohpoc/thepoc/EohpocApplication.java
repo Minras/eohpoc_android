@@ -23,31 +23,6 @@ public class EohpocApplication extends Application {
     public void onCreate() {
         super.onCreate();
 
-//        beaconManager = new BeaconManager(getApplicationContext());
-//
-//        beaconManager.connect(new BeaconManager.ServiceReadyCallback() {
-//            @Override
-//            public void onServiceReady() {
-//                beaconManager.startMonitoring(new Region(
-//                        "monitored region",
-//                        null,
-//                        null, null));
-//                showNotification("Started monitor", "subj");
-//            }
-//        });
-
-//        beaconManager.setMonitoringListener(new BeaconManager.MonitoringListener() {
-//            @Override
-//            public void onEnteredRegion(Region region, List<Beacon> list) {
-//                showNotification("Beacon nearby!", "Beacon nearby! Go grab it!");
-//            }
-//
-//            @Override
-//            public void onExitedRegion(Region region) {
-//                // could add an "exit" notification too if you want (-:
-//                showNotification("Range exit", "subj");
-//            }
-//        });
     }
 
     public void showNotification(String title, String message) {
