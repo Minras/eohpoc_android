@@ -1,5 +1,6 @@
 package com.minras.android.eohpoc.thepoc;
 
+import android.app.Fragment;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.support.design.widget.TabLayout;
@@ -11,9 +12,11 @@ import android.support.v4.view.ViewPager;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.TextView;
 
 import com.estimote.sdk.SystemRequirementsChecker;
 import com.minras.android.eohpoc.thepoc.fragment.SectionsPagerAdapter;
+import com.minras.android.eohpoc.thepoc.fragment.TabFragmentLogs;
 
 import java.util.Set;
 
@@ -65,9 +68,15 @@ public class MainActivity extends AppCompatActivity {
         updateLogs("Bluetooth initialization completed");
     }
 
-    public void updateLogs(String msg) {
-        TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
-        tabLayout.getTabAt(3).setText(msg);
+//    public void updateLogs(String msg) {
+//        TabFragmentLogs f = (TabFragmentLogs) mSectionsPagerAdapter.getItem(3);
+//        f.log(msg);
+//    }
+
+    public void updateLogs(String s) {
+        // TODO Fix here
+//        Fragment frag = getFragmentManager().findFragmentById(R.id.);
+//        ((TextView) frag.getView().findViewById(R.id.textView)).setText(s);
     }
 
     @Override

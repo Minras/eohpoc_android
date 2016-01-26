@@ -4,11 +4,18 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
+import java.util.List;
+
 /**
  * A {@link FragmentPagerAdapter} that returns a fragment corresponding to
  * one of the sections/tabs/pages.
  */
 public class SectionsPagerAdapter extends FragmentPagerAdapter {
+
+    TabFragmentTrip tabFragmentTrip = new TabFragmentTrip();
+    TabFragmentHistory tabFragmentHistory = new TabFragmentHistory();
+    TabFragmentSettings tabFragmentSettings = new TabFragmentSettings();
+    TabFragmentLogs tabFragmentLogs = new TabFragmentLogs();
 
     public SectionsPagerAdapter(FragmentManager fm) {
         super(fm);
@@ -20,13 +27,13 @@ public class SectionsPagerAdapter extends FragmentPagerAdapter {
         // Return a PlaceholderFragment (defined as a static inner class below).
         switch (position) {
             case 0:
-                return new TabFragmentTrip();
+                return tabFragmentTrip;
             case 1:
-                return new TabFragmentHistory();
+                return tabFragmentHistory;
             case 2:
-                return new TabFragmentSettings();
+                return tabFragmentSettings;
             case 3:
-                return new TabFragmentLogs();
+                return tabFragmentLogs;
             default:
                 return null;
         }
