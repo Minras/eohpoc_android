@@ -2,7 +2,6 @@ package com.minras.android.eohpoc.thepoc;
 
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -19,11 +18,7 @@ import java.util.Set;
 
 public class MainActivity extends AppCompatActivity {
 
-    public static final String STORAGE_NAME = "EohStorage";
-    public static final String STORAGE_KEY_LOGS = "log";
-
-    private boolean isLogsInitialized = false;
-
+    public Log log;
     private BluetoothAdapter bluetoothAdapter;
     private Set<BluetoothDevice> pairedDevices;
 
@@ -61,31 +56,14 @@ public class MainActivity extends AppCompatActivity {
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(mViewPager);
 
+        log = new Log(this);
         initBluetooth();
     }
 
-    private void initLog() {
-        getSharedPreferences(STORAGE_NAME, 0).
-                edit().
-                putString(STORAGE_KEY_LOGS, "").
-                apply();
-        isLogsInitialized = true;
-    }
-
-    public void addLog(String msg) {
-        if (!isLogsInitialized) initLog();
-        SharedPreferences settings = getSharedPreferences(STORAGE_NAME, 0);
-        settings.edit().
-            putString(
-                    STORAGE_KEY_LOGS,
-                    settings.getString(STORAGE_KEY_LOGS, "") + "\n" + msg).
-            apply();
-    }
-
     private void initBluetooth() {
-        addLog("Bluetooth initialization started");
+        log.add("Bluetooth initialization started");
         bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
-        addLog("Bluetooth initialization completed");
+        log.add("Bluetooth initialization completed");
     }
 
     @Override

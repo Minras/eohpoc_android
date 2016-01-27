@@ -1,7 +1,6 @@
 package com.minras.android.eohpoc.thepoc.fragment;
 
 
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -23,8 +22,7 @@ public class TabFragmentLogs extends Fragment {
 
     private void updateLogs(View v) {
         MainActivity a = (MainActivity)getActivity();
-        SharedPreferences settings = a.getSharedPreferences(a.STORAGE_NAME, 0);
         TextView logsTextView = (TextView)v.findViewById(R.id.textViewLogs);
-        logsTextView.setText(settings.getString(a.STORAGE_KEY_LOGS, "Log is empty"));
+        logsTextView.setText(a.log.get());
     }
 }
