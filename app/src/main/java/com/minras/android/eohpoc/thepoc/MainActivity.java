@@ -1,7 +1,14 @@
 package com.minras.android.eohpoc.thepoc;
 
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -14,13 +21,9 @@ import android.view.MenuItem;
 import com.estimote.sdk.SystemRequirementsChecker;
 import com.minras.android.eohpoc.thepoc.fragment.SectionsPagerAdapter;
 
-import java.util.Set;
-
 public class MainActivity extends AppCompatActivity {
 
     public Log log;
-    private BluetoothAdapter bluetoothAdapter;
-    private Set<BluetoothDevice> pairedDevices;
 
     /**
      * The {@link android.support.v4.view.PagerAdapter} that will provide
@@ -62,15 +65,39 @@ public class MainActivity extends AppCompatActivity {
 
     private void initBluetooth() {
         log.add("Bluetooth initialization started");
-        bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
+        BluetoothAdapter bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
+
+        bluetoothAdapter.startDiscovery();
+        IntentFilter btFilter = new IntentFilter(BluetoothDevice.ACTION_FOUND);
+        registerReceiver(mReceiver, btFilter);
+
         log.add("Bluetooth initialization completed");
     }
+
+    // http://stackoverflow.com/a/31293094/613702
+    private final BroadcastReceiver mReceiver = new BroadcastReceiver() {
+        public void onReceive(Context context, Intent intent) {
+            String action = intent.getAction();
+            if (BluetoothDevice.ACTION_FOUND.equals(action)) {
+                showNotification("Bluetooth device found!", "See logs for more information.");
+                BluetoothDevice device = intent
+                        .getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
+                log.add("BT Device found: " + device.getName() + " / " + device.getAddress());
+            }
+        }
+    };
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
+    }
+
+    @Override
+    protected void onDestroy() {
+        unregisterReceiver(mReceiver);
+        super.onDestroy();
     }
 
     @Override
@@ -92,5 +119,23 @@ public class MainActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         SystemRequirementsChecker.checkWithDefaultDialogs(this);
+    }
+
+    public void showNotification(String title, String message) {
+        Intent notifyIntent = new Intent(this, MainActivity.class);
+        notifyIntent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+        PendingIntent pendingIntent = PendingIntent.getActivities(this, 0,
+                new Intent[] { notifyIntent }, PendingIntent.FLAG_UPDATE_CURRENT);
+        Notification notification = new Notification.Builder(this)
+                .setSmallIcon(android.R.drawable.stat_sys_data_bluetooth)
+                .setContentTitle(title)
+                .setContentText(message)
+                .setAutoCancel(true)
+                .setContentIntent(pendingIntent)
+                .build();
+        notification.defaults |= Notification.DEFAULT_SOUND;
+        NotificationManager notificationManager =
+                (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        notificationManager.notify(1, notification);
     }
 }
