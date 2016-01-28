@@ -22,7 +22,7 @@ import com.estimote.sdk.SystemRequirementsChecker;
 import com.minras.android.eohpoc.thepoc.fragment.SectionsPagerAdapter;
 
 public class MainActivity extends AppCompatActivity {
-
+    private final static int REQUEST_ENABLE_BT = 1;
     public Log log;
 
     /**
@@ -66,7 +66,16 @@ public class MainActivity extends AppCompatActivity {
     private void initBluetooth() {
         log.add("Bluetooth initialization started");
         BluetoothAdapter bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
-
+        if (bluetoothAdapter == null) {
+            // Device does not support Bluetooth
+            log.add("Bluetooth cannot be initialized.");
+            log.add("Bluetooth initialization failed.");
+            return;
+        }
+        if (!bluetoothAdapter.isEnabled()) {
+            Intent enableBtIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
+            startActivityForResult(enableBtIntent, REQUEST_ENABLE_BT);
+        }
         bluetoothAdapter.startDiscovery();
         IntentFilter btFilter = new IntentFilter(BluetoothDevice.ACTION_FOUND);
         registerReceiver(mReceiver, btFilter);
