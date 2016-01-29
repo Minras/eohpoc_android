@@ -5,6 +5,7 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
+import android.bluetooth.BluetoothManager;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -63,10 +64,19 @@ public class MainActivity extends AppCompatActivity {
         initBluetooth();
     }
 
+    // http://developer.android.com/guide/topics/connectivity/bluetooth-le.html
     private void initBluetooth() {
         log.add("Bluetooth initialization started");
-        BluetoothAdapter bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
-        if (bluetoothAdapter == null) {
+        // Initializes Bluetooth adapter.
+        // BluetoothAdapter bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
+        final BluetoothManager bluetoothManager =
+                (BluetoothManager) getSystemService(Context.BLUETOOTH_SERVICE);
+        BluetoothAdapter bluetoothAdapter = bluetoothManager.getAdapter();
+        // Ensures Bluetooth is available on the device and it is enabled. If not,
+        // displays a dialog requesting user permission to enable Bluetooth.
+        if (bluetoothAdapter == null || !bluetoothAdapter.isEnabled()) {
+            Intent enableBtIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
+            startActivityForResult(enableBtIntent, REQUEST_ENABLE_BT);
             // Device does not support Bluetooth
             log.add("Bluetooth cannot be initialized.");
             log.add("Bluetooth initialization failed.");
@@ -75,6 +85,11 @@ public class MainActivity extends AppCompatActivity {
         if (!bluetoothAdapter.isEnabled()) {
             Intent enableBtIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
             startActivityForResult(enableBtIntent, REQUEST_ENABLE_BT);
+        }
+        if (!getPackageManager().hasSystemFeature(getPackageManager().FEATURE_BLUETOOTH_LE)) {
+//            Toast.makeText(this, R.string.ble_not_supported, Toast.LENGTH_SHORT).show();
+            showNotification("BLE not found.", "Bluetooth LE can't be used on this device.");
+            finish();
         }
         bluetoothAdapter.startDiscovery();
         IntentFilter btFilter = new IntentFilter(BluetoothDevice.ACTION_FOUND);
