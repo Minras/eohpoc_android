@@ -8,6 +8,8 @@
 
     <!-- Required for BLE scanning on Android 6.0 and above. -->
     <uses-permission-sdk-23 android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+    <!-- When true then works only with BLE devices-->
+    <uses-feature android:name="android.hardware.bluetooth_le" android:required="true"/>
 
     <!-- Required to access Estimote Cloud. -->
     <uses-permission android:name="android.permission.INTERNET"/>
