@@ -2,4 +2,6 @@
     <string name="app_name">The PoC</string>
     <string name="action_main">Settings</string>
     <string name="section_format">Sample section: %1$d</string>
+
+    <string name="btnLogin">Login</string>
 </resources>

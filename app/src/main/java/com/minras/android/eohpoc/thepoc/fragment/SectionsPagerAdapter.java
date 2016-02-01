@@ -15,6 +15,7 @@ public class SectionsPagerAdapter extends FragmentPagerAdapter {
     TabFragmentTrip tabFragmentTrip = new TabFragmentTrip();
     TabFragmentHistory tabFragmentHistory = new TabFragmentHistory();
     TabFragmentSettings tabFragmentSettings = new TabFragmentSettings();
+    TabFragmentUser tabFragmentUser = new TabFragmentUser();
     TabFragmentLogs tabFragmentLogs = new TabFragmentLogs();
 
     public SectionsPagerAdapter(FragmentManager fm) {
@@ -33,6 +34,8 @@ public class SectionsPagerAdapter extends FragmentPagerAdapter {
             case 2:
                 return tabFragmentSettings;
             case 3:
+                return tabFragmentUser;
+            case 4:
                 return tabFragmentLogs;
             default:
                 return null;
@@ -41,8 +44,7 @@ public class SectionsPagerAdapter extends FragmentPagerAdapter {
 
     @Override
     public int getCount() {
-        // Show 3 total pages.
-        return 4;
+        return 5;
     }
 
     @Override
@@ -55,8 +57,11 @@ public class SectionsPagerAdapter extends FragmentPagerAdapter {
             case 2:
                 return "Settings";
             case 3:
+                return "Account";
+            case 4:
                 return "Logs";
+            default:
+                return null;
         }
-        return null;
     }
 }
