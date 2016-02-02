@@ -16,6 +16,7 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -23,8 +24,9 @@ import com.estimote.sdk.SystemRequirementsChecker;
 import com.minras.android.eohpoc.thepoc.fragment.SectionsPagerAdapter;
 
 public class MainActivity extends AppCompatActivity {
+    public final static String APP_LOG_TAG = "EohPocApp";
+
     private final static int REQUEST_ENABLE_BT = 1;
-    public Log log;
 
     /**
      * The {@link android.support.v4.view.PagerAdapter} that will provide
@@ -60,13 +62,12 @@ public class MainActivity extends AppCompatActivity {
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(mViewPager);
 
-        log = new Log(this);
         initBluetooth();
     }
 
     // http://developer.android.com/guide/topics/connectivity/bluetooth-le.html
     private void initBluetooth() {
-        log.add("Bluetooth initialization started");
+        Log.i(MainActivity.APP_LOG_TAG, "Bluetooth initialization started");
         // Initializes Bluetooth adapter.
         // BluetoothAdapter bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
         final BluetoothManager bluetoothManager =
@@ -78,8 +79,8 @@ public class MainActivity extends AppCompatActivity {
             Intent enableBtIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
             startActivityForResult(enableBtIntent, REQUEST_ENABLE_BT);
             // Device does not support Bluetooth
-            log.add("Bluetooth cannot be initialized.");
-            log.add("Bluetooth initialization failed.");
+            Log.i(MainActivity.APP_LOG_TAG, "Bluetooth cannot be initialized.");
+            Log.i(MainActivity.APP_LOG_TAG, "Bluetooth initialization failed.");
             return;
         }
         if (!bluetoothAdapter.isEnabled()) {
@@ -95,7 +96,7 @@ public class MainActivity extends AppCompatActivity {
         IntentFilter btFilter = new IntentFilter(BluetoothDevice.ACTION_FOUND);
         registerReceiver(mReceiver, btFilter);
 
-        log.add("Bluetooth initialization completed");
+        Log.i(MainActivity.APP_LOG_TAG, "Bluetooth initialization completed");
     }
 
     // http://stackoverflow.com/a/31293094/613702
@@ -106,7 +107,8 @@ public class MainActivity extends AppCompatActivity {
                 showNotification("Bluetooth device found!", "See logs for more information.");
                 BluetoothDevice device = intent
                         .getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
-                log.add("BT Device found: " + device.getName() + " / " + device.getAddress());
+                Log.i(MainActivity.APP_LOG_TAG,
+                        "BT Device found: " + device.getName() + " / " + device.getAddress());
             }
         }
     };
