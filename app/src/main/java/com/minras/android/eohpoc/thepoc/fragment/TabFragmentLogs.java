@@ -53,6 +53,11 @@ public class TabFragmentLogs extends Fragment
         Button btnUpdateLogs = (Button)view.findViewById(R.id.tabLogsBtnUpdate);
         btnUpdateLogs.setOnClickListener(this);
 
+        TextView logsTextView = (TextView)view.findViewById(R.id.textViewLogs);
+        if (logsTextView.getText().equals("")) {
+            updateLogs(logsTextView);
+        }
+
         return view;
     }
 
@@ -65,7 +70,7 @@ public class TabFragmentLogs extends Fragment
             Runtime.getRuntime().exec("logcat -c");
             logsTextView.setText("");
         }
-        catch (Exception e)
+        catch (IOException e)
         {
             Log.e(Config.APP_LOG_TAG, "Error clearing logs: " + e.getMessage());
         }
@@ -73,7 +78,10 @@ public class TabFragmentLogs extends Fragment
 
     private void updateLogs() {
         TextView logsTextView = (TextView)view.findViewById(R.id.textViewLogs);
+        updateLogs(logsTextView);
+    }
 
+    private void updateLogs(TextView logsTextView) {
         try {
             Process process = Runtime.
                     getRuntime().
