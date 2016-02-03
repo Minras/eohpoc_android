@@ -10,12 +10,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.minras.android.eohpoc.thepoc.Config;
 import com.minras.android.eohpoc.thepoc.R;
 
-public class TabFragmentUser extends Fragment {
-    private Button btnLogin;
+public class TabFragmentUser extends Fragment
+        implements View.OnClickListener {
+    private View view;
     private EditText username;
 
     @Override
@@ -26,14 +28,17 @@ public class TabFragmentUser extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.tab_fragment_user, container, false);
-        btnLogin = (Button)view.findViewById(R.id.tabUserBtnLogin);
+        view = inflater.inflate(R.layout.tab_fragment_user, container, false);
+
         username = (EditText)view.findViewById(R.id.tabUserTextLogin);
+        Button btnLogin = (Button)view.findViewById(R.id.tabUserBtnLogin);
+        btnLogin.setOnClickListener(this);
+
         return view;
     }
 
     @Override
-    public void onStop( ){
+    public void onStop(){
         super.onStop();
         if(username.getText() != null) {
             SharedPreferences settings = this.getActivity().getSharedPreferences(Config.STORAGE_NAME, 0);
@@ -44,6 +49,16 @@ public class TabFragmentUser extends Fragment {
     }
 
     public void login() {
+        Log.i(Config.APP_LOG_TAG, String.format(
+                "Logging in with the new user: %s", username.getText().toString()));
+    }
 
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.tabUserBtnLogin:
+                login();
+                break;
+        }
     }
 }

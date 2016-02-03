@@ -4,17 +4,22 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/txtUserLoginCredentials"
+        style="?android:attr/listSeparatorTextViewStyle" />
+
     <EditText
         android:id="@+id/tabUserTextLogin"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:hint=""/>
+        android:hint="@string/txtUserName"/>
 
     <Button
         android:id="@+id/tabUserBtnLogin"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:onClick="login"
         android:text="@string/btnLogin"
         />
 

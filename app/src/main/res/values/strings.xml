@@ -9,4 +9,7 @@
 
     <string name="txtServerSettings">Server Settings</string>
     <string name="txtServerSettingsDefaultValue">http://127.0.0.1:8080/api/map/update</string>
+
+    <string name="txtUserLoginCredentials">Login Credentials</string>
+    <string name="txtUserName">Login Credentials</string>
 </resources>

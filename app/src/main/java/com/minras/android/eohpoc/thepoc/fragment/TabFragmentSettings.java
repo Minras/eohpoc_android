@@ -14,7 +14,7 @@ import com.minras.android.eohpoc.thepoc.Config;
 import com.minras.android.eohpoc.thepoc.R;
 
 public class TabFragmentSettings extends Fragment
-        implements View.OnClickListener{
+        implements View.OnClickListener {
     private View view;
 
     @Override
