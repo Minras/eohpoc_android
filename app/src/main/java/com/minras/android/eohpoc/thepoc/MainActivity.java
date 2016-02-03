@@ -20,7 +20,6 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import com.estimote.sdk.SystemRequirementsChecker;
 import com.minras.android.eohpoc.thepoc.fragment.SectionsPagerAdapter;
 
 public class MainActivity extends AppCompatActivity {
@@ -136,12 +135,6 @@ public class MainActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        SystemRequirementsChecker.checkWithDefaultDialogs(this);
     }
 
     public void showNotification(String title, String message) {
