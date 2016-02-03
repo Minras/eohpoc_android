@@ -6,4 +6,7 @@
     <string name="btnLogin">Login</string>
     <string name="btnClearLogs">Clear</string>
     <string name="btnUpdateLogs">Update</string>
+
+    <string name="txtServerSettings">Server Settings</string>
+    <string name="txtServerSettingsDefaultValue">http://127.0.0.1:8080/api/map/update</string>
 </resources>
