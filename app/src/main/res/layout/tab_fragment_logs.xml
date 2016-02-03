@@ -4,10 +4,9 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <LinearLayout
+    <android.support.v7.widget.ButtonBarLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:layout_height="wrap_content">
         <Button
             android:id="@+id/tabLogsBtnClear"
             android:layout_width="wrap_content"
@@ -18,7 +17,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/btnUpdateLogs" />
-    </LinearLayout>
+    </android.support.v7.widget.ButtonBarLayout>
 
     <ScrollView
         android:layout_width="match_parent"

@@ -7,10 +7,11 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
+import com.android.ddmlib.logcat.LogCatMessageParser;
 import com.minras.android.eohpoc.thepoc.Config;
-import com.minras.android.eohpoc.thepoc.MainActivity;
 import com.minras.android.eohpoc.thepoc.R;
 
 import java.io.BufferedReader;
@@ -19,9 +20,8 @@ import java.io.InputStreamReader;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import com.android.ddmlib.logcat.LogCatMessageParser;
-
-public class TabFragmentLogs extends Fragment {
+public class TabFragmentLogs extends Fragment
+        implements View.OnClickListener {
     private static final LogCatMessageParser logCatMessageParser = new LogCatMessageParser();
     private static final String pid = Integer.toString(android.os.Process.myPid());
     private static final String logBriefPatternTpl = String.format(
@@ -29,18 +29,41 @@ public class TabFragmentLogs extends Fragment {
             Config.APP_LOG_TAG);
     private static final Pattern logBriefPattern = Pattern.compile(logBriefPatternTpl);
 
+    private View view;
+
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.tab_fragment_logs, container, false);
-        updateLogs(v);
-        return v;
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.tabLogsBtnClear:
+                clearLogs();
+                break;
+            case R.id.tabLogsBtnUpdate:
+                updateLogs();
+                break;
+        }
     }
 
-    public static void clearLog()
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        view = inflater.inflate(R.layout.tab_fragment_logs, container, false);
+
+        Button btnClearLogs = (Button)view.findViewById(R.id.tabLogsBtnClear);
+        btnClearLogs.setOnClickListener(this);
+
+        Button btnUpdateLogs = (Button)view.findViewById(R.id.tabLogsBtnUpdate);
+        btnUpdateLogs.setOnClickListener(this);
+
+        return view;
+    }
+
+    private void clearLogs()
     {
+        TextView logsTextView = (TextView)view.findViewById(R.id.textViewLogs);
+
         try
         {
             Runtime.getRuntime().exec("logcat -c");
+            logsTextView.setText("");
         }
         catch (Exception e)
         {
@@ -48,9 +71,8 @@ public class TabFragmentLogs extends Fragment {
         }
     }
 
-    private void updateLogs(View v) {
-        MainActivity a = (MainActivity)getActivity();
-        TextView logsTextView = (TextView)v.findViewById(R.id.textViewLogs);
+    private void updateLogs() {
+        TextView logsTextView = (TextView)view.findViewById(R.id.textViewLogs);
 
         try {
             Process process = Runtime.
