@@ -65,13 +65,10 @@ public class TabFragmentLogs extends Fragment
     {
         TextView logsTextView = (TextView)view.findViewById(R.id.textViewLogs);
 
-        try
-        {
+        try {
             Runtime.getRuntime().exec("logcat -c");
             logsTextView.setText("");
-        }
-        catch (IOException e)
-        {
+        } catch (IOException e) {
             Log.e(Config.APP_LOG_TAG, "Error clearing logs: " + e.getMessage());
         }
     }
