@@ -4,4 +4,6 @@
     <string name="section_format">Sample section: %1$d</string>
 
     <string name="btnLogin">Login</string>
+    <string name="btnClearLogs">Clear</string>
+    <string name="btnUpdateLogs">Update</string>
 </resources>
