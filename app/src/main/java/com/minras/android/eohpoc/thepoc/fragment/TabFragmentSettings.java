@@ -38,6 +38,7 @@ public class TabFragmentSettings extends Fragment
 
     private void updateServerSettings() {
         TextView uriTextView = (TextView)view.findViewById(R.id.tabSettingsTextServerUri);
-        Log.i(Config.APP_LOG_TAG, uriTextView.getText().toString());
+        Log.i(Config.APP_LOG_TAG, String.format(
+                "Updating server settings with new URI: %s", uriTextView.getText().toString()));
     }
 }
